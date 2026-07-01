@@ -1,0 +1,370 @@
+sets
+    a /arroz, frij, frij_ref, torti, jito, cebo, papa, zana, espi, champ,
+       cilan, lech, pasta, chile, aceit, huev, sal, leche, cafe, agua, azu,
+       galle, pastel, pan, atun, pollo, res, refres, sabori, hari, cereal,
+       electro, latver, aguapot/
+    m /des, com, cen/
+    t /1*7/
+    e /ni, ado, adu/
+    r /ala, ref, cong/
+    n /fyv, legani, cere, acyaz/
+    nmain(n) /fyv, legani, cere/
+    prot(a) /pollo, res, huev, atun, frij, frij_ref, leche/
+    condimento(a) /sal, agua, cafe, refres, sabori, electro/
+    insumo(a) /agua, aceit, aguapot, sal/;
+
+alias(a, aa);
+parameters
+    c(a) "costo unitario por kg de alimento"
+    /arroz    19.9
+     frij     21.95
+     frij_ref 21.95
+     torti    18.9
+     jito     51
+     cebo     24
+     papa     39
+     zana     15.5
+     espi     50
+     champ    151.11
+     cilan    86.67
+     lech     26
+     pasta    33.33
+     chile    41.5
+     aceit    38
+     huev     62.33
+     sal      18
+     leche    23.89
+     cafe     316
+     agua     2.5
+     azu      39
+     galle    129.41
+     pastel   88.71
+     pan      73.53
+     atun     121.43
+     pollo    189
+     res      186
+     refres   18.5
+     sabori   730.77
+     hari     24
+     cereal   186.49
+     electro  41
+     latver   50
+     aguapot  2.5/
+
+    cap(r)
+    /ala  5.0
+     ref  4.0
+     cong 2.0/
+
+    b(t)
+    /1 35000
+     2 0
+     3 0
+     4 0
+     5 0
+     6 0
+     7 0/
+
+    compra(t)
+    /1 1
+     2 0
+     3 0
+     4 0
+     5 0
+     6 0
+     7 0/
+
+    inv0(a) "inventario inicial aproximado"
+    /aceit     92
+     galle     35
+     pasta     300
+     frij      330
+     frij_ref  3.87
+     arroz     100
+     azu       156
+     hari      100
+     atun      8.255
+     leche     12.9
+     electro   468.6
+     latver    70/
+
+    minApariciones(a)
+    /pollo  3
+     res    3
+     huev   5/;
+
+
+table vol(a,r) "volumen necesario para alimento a"
+                ala     ref     cong
+    arroz      0.0013   0       0
+    frij       0.0013   0       0
+    frij_ref   0        0.0015  0
+    torti      0        0.0015  0
+    jito       0        0.002   0
+    cebo       0.0015   0       0
+    papa       0.0015   0       0
+    zana       0        0.002   0
+    espi       0        0.002   0
+    champ      0        0.002   0
+    cilan      0        0.002   0
+    lech       0        0.002   0
+    latver     0.0015   0       0
+    pasta      0.0013   0       0
+    chile      0        0.002   0
+    aceit      0.001    0       0
+    huev       0        0.0015  0
+    sal        0.0013   0       0
+    leche      0        0.001   0
+    cafe       0.0013   0       0
+    agua       0.001    0       0
+    azu        0.0013   0       0
+    galle      0.0015   0       0
+    pastel     0        0.002   0
+    pan        0        0.002   0
+    atun       0.0015   0       0
+    pollo      0        0       0.0015
+    res        0        0       0.0015
+    refres     0        0.001   0
+    sabori     0.0013   0       0
+    hari       0.0013   0       0
+    cereal     0.0015   0       0
+    electro    0        0.001   0
+    aguapot    0.001    0       0;
+
+
+table nut(a,n) "grupo del plato del buen comer"
+               fyv  legani  cere  acyaz
+    arroz       0     0      1     0
+    frij        0     1      0     0
+    frij_ref    0     1      0     0
+    torti       0     0      1     0
+    jito        1     0      0     0
+    cebo        1     0      0     0
+    papa        1     0      0     0
+    zana        1     0      0     0
+    espi        1     0      0     0
+    champ       1     0      0     0
+    cilan       1     0      0     0
+    lech        1     0      0     0
+    latver      1     0      0     0
+    pasta       0     0      1     0
+    chile       1     0      0     0
+    aceit       0     0      0     1
+    huev        0     1      0     0
+    sal         0     0      0     0
+    leche       0     1      0     0
+    cafe        0     0      0     0
+    agua        0     0      0     0
+    azu         0     0      0     1
+    galle       0     0      1     1
+    pastel      0     0      1     1
+    pan         0     0      1     0
+    atun        0     1      0     0
+    pollo       0     1      0     0
+    res         0     1      0     0
+    refres      0     0      0     0
+    sabori      0     0      0     1
+    hari        0     0      1     0
+    cereal      0     0      1     1
+    electro     0     0      0     0
+    aguapot     0     0      0     0;
+
+
+table per(e,t) "cantidad de personas por grupo y dia"
+              1   2   3   4   5   6   7
+    ni       11  11  11  11  11  11  11
+    ado       6   6   6   6   6   6   6
+    adu      63  63  63  63  63  63  63;
+
+
+table req_min(n,e)
+              ni      ado     adu
+    fyv    0.400   0.500   0.500
+    cere   0.240   0.300   0.300
+    legani 0.250   0.350   0.350
+    acyaz  0.010   0.010   0.010;
+
+
+table req_max(n,e) "kg maximos recomendados por persona por dia"
+              ni      ado     adu
+    fyv    0.600   0.700   0.700
+    cere   0.360   0.420   0.420
+    legani 0.400   0.500   0.500
+    acyaz  0.040   0.050   0.050;
+
+
+table uso_insumo(a,insumo) "uso de agua y aceite (kg) por kg de alimento"
+               agua    aceit   aguapot   sal
+   arroz       0.5     0       0        0.010
+   frij        0.8     0.02    0        0.015
+   frij_ref    0.3     0.05    0        0.010
+   torti       0.2     0.03    0        0.005
+   jito        0.1     0       0        0.005
+   cebo        0.1     0.05    0        0.008
+   papa        0.4     0.08    0        0.010
+   zana        0.1     0       0        0.005
+   espi        0.3     0       0        0.005
+   champ       0.1     0.05    0        0.008
+   lech        0.2     0       0        0.005
+   pasta       0.9     0.02    0        0.010
+   chile       0.1     0       0        0.003
+   huev        0.1     0.1     0        0.005
+   leche       0       0       0        0
+   pollo       0.4     0.1     0        0.015
+   res         0.3     0.1     0        0.015
+   atun        0.2     0       0        0
+   pan         0       0       0        0.005
+   galle       0       0       0        0
+   cereal      0.2     0       0        0
+   hari        0.4     0.03    0        0.010
+   sabori      0       0       80       0
+   cafe        0       0       30       0
+   refres      0       0       0        0
+   agua        0       0       0        0
+   aceit       0       0       0        0
+   sal         0       0       0        0
+   azu         0       0       0        0
+   pastel      0       0       0        0
+   latver      0       0       0        0
+   electro     0       0       0        0
+   aguapot     0       0       0        0;
+
+
+scalars
+    bigMpor      /5/
+    bigMx        /10000/
+    minAlimentos /4/
+    minPorcProt  /0.13/
+    kgmin        /5/;
+
+
+binary variable menu(a,t,m) "1 si alimento a se usa en el menu m del dia t";
+
+positive variables
+    x(a,t)        "cantidad comprada del alimento a en el dia t"
+    i(a,t)        "inventario final del alimento a al final del dia t"
+    porc(a,t,m,e) "porcion por persona del alimento a en dia t, menu m, grupo e";
+
+variable z "costo total";
+
+
+equations
+    obj
+    invini(a)
+    invbal(a,t)
+    restr_compra(a,t)
+    menunovacio(t,m)
+    activamenu(a,t,m,e)
+    activamin(prot,t,m,e)
+    nutrimin(n,e,t)
+    nutrimax(n,e,t)
+    presupuesto(t)
+    capacidad(r,t)
+    variedad(a,t)
+    nutriturno(nmain,t,m)
+    aparicionmin(a)
+    kgminturno(a,t,m)
+    bal_insumo(insumo,t)
+    cafe_aguapot(t,m)
+    sabori_aguapot(t,m)
+    leche_sabori(t,m)
+    leche_agua(t,m);
+
+
+obj..
+    z =e= sum((a,t), c(a)*x(a,t));
+
+invini(a)..
+    i(a,'1') =e= inv0(a) + x(a,'1')
+                - sum((m,e), per(e,'1')*porc(a,'1',m,e))
+                - sum((aa,m,e,insumo)$(sameas(a,insumo)), uso_insumo(aa,insumo) * per(e,'1') * porc(aa,'1',m,e));
+
+invbal(a,t)$(ord(t)>1)..
+    i(a,t) =e= i(a,t-1) + x(a,t)
+               - sum((m,e), per(e,t)*porc(a,t,m,e))
+               - sum((aa,m,e,insumo)$(sameas(a,insumo)), uso_insumo(aa,insumo) * per(e,t) * porc(aa,t,m,e));
+               
+restr_compra(a,t)..
+    x(a,t) =l= bigMx*compra(t);
+
+menunovacio(t,m)..
+    sum(a$(not condimento(a)), menu(a,t,m)) =g= minAlimentos;
+
+activamenu(a,t,m,e)..
+    porc(a,t,m,e) =l= bigMpor * menu(a,t,m);
+
+activamin(prot,t,m,e)..
+    porc(prot,t,m,e) =g= minPorcProt * menu(prot,t,m);
+
+nutrimin(n,e,t)..
+    sum((a,m), nut(a,n)*porc(a,t,m,e)) =g= req_min(n,e);
+
+nutrimax(n,e,t)..
+    sum((a,m), nut(a,n)*porc(a,t,m,e)) =l= req_max(n,e);
+
+presupuesto(t)..
+    sum(a, c(a)*x(a,t)) =l= b(t);
+
+capacidad(r,t)..
+    sum(a, vol(a,r)*i(a,t)) =l= cap(r);
+
+variedad(a,t)..
+    sum(m, menu(a,t,m)) =l= 1;
+
+nutriturno(nmain,t,m)..
+    sum(a, nut(a,nmain)*menu(a,t,m)) =g= 1;
+
+aparicionmin(a)$minApariciones(a)..
+    sum((t,m), menu(a,t,m)) =g= minApariciones(a);
+
+kgminturno(a,t,m)$(not condimento(a))..
+    sum(e, per(e,t) * porc(a,t,m,e)) =g= kgmin * menu(a,t,m);
+
+bal_insumo(insumo,t)..
+    i(insumo,t) =g= sum((a,m,e),
+         uso_insumo(a,insumo) * per(e,t) * porc(a,t,m,e));
+
+cafe_aguapot(t,m)..
+    menu('aguapot',t,m) + menu('leche',t,m) =g= menu('cafe',t,m);
+
+sabori_aguapot(t,m)..
+    menu('aguapot',t,m) =g= menu('sabori',t,m);
+
+leche_sabori(t,m)..
+    menu('leche',t,m) + menu('sabori',t,m) =l= 1;
+
+leche_agua(t,m)..
+    menu('leche',t,m) + menu('aguapot',t,m) =l= 1;
+
+
+* Fijacion de variables que no son alimentos de menu directo
+porc.fx('agua', t, m, e)  = 0;
+porc.fx('aceit', t, m, e) = 0;
+menu.fx('agua', t, m)     = 0;
+menu.fx('aceit', t, m)    = 0;
+menu.fx('electro', t, m)  = 0;
+
+
+model comedor /all/;
+solve comedor using mip minimizing z;
+
+
+parameter consumo_menu(a,t,m) "kg totales consumidos por alimento, dia y menu";
+consumo_menu(a,t,m) = sum(e, per(e,t) * porc.l(a,t,m,e));
+menu.l(a,t,m)$(menu.l(a,t,m) < 0.5) = 0;
+consumo_menu(a,t,m)$(consumo_menu(a,t,m) < 0.01) = 0;
+
+display consumo_menu;
+
+parameter uso_agua(t,m)    "kg de agua de cocina usados";
+parameter uso_aceite(t,m)  "kg de aceite usados";
+parameter uso_aguapot(t,m) "kg de agua potable usados";
+parameter uso_sal(t,m)     "kg de sal usados";
+
+uso_agua(t,m)    = sum(a, uso_insumo(a,'agua')    * consumo_menu(a,t,m));
+uso_aceite(t,m)  = sum(a, uso_insumo(a,'aceit')   * consumo_menu(a,t,m));
+uso_aguapot(t,m) = sum(a, uso_insumo(a,'aguapot') * consumo_menu(a,t,m));
+uso_sal(t,m)     = sum(a, uso_insumo(a,'sal')     * consumo_menu(a,t,m));
+
+display uso_agua, uso_aceite, uso_aguapot, uso_sal;
+display z.l, x.l, i.l, menu.l;
